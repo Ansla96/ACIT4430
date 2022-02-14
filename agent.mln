@@ -1,0 +1,116 @@
+global {
+        project DevEnv
+}
+
+superclass Common {
+        openstack {
+                image Ubuntu-20.04-LTS
+                flavor m1.medium
+                keypair master
+
+                user_data {
+                        apt-get -y update
+                        apt-get -y install jed
+                        groupadd developers
+                        useradd -m janet --password $(openssl passwd -1 'Developer1!') --groups sudo,developers
+                        useradd -m bob --password $(openssl passwd -1 'Developer2!') --groups sudo
+                        useradd -m alice --password $(openssl passwd -1 'Developer3!') --groups sudo
+                        useradd -m tim --password $(openssl passwd -1 'Developer4!') --groups sudo,developers
+                        wget http://apt.puppetlabs.com/puppet6-release-focal.deb 
+	                      dpkg -i puppet6-release-focal.deb 
+                        apt-get -y update
+                        apt-get -y install puppet-agent
+                }
+        }
+
+        network eth0 {
+                net netsys_net
+                adress dhcp
+}
+
+# Class for installing GlusterFS on Storage Servers
+superclass Storage {
+        openstack {
+                user_data {
+                        apt-get -y update
+                        apt-get -y install software-properties-common
+                        add-apt-repository -y -u ppa:gluster/glusterfs-7
+                        apt-get -y install glusterfs-server
+                }
+        }
+}
+
+superclass DevServer {
+        openstack {
+                user_data {
+                        apt-get -y update
+                        apt-get -y install emacs
+                        apt-get -y install jed
+                        apt-get -y install apache2 apache2-utils
+                        systemctl start apache2
+                        systemctl enable apache2
+                        DEBIAN_FRONTEND=noninteractive apt-get -y install libapache2-mod-svn subversion-tools libsvn-dev
+                        apt-get -y install subversion
+                        a2enmod dav
+                        a2enmod dav_svn
+                        systemctl restart apache2
+                        echo "Alias /svn /var/www/svn
+                        <Location /svn>
+
+                            DAV svn
+                            SVNParentPath /var/www/svn
+
+                            AuthType Basic
+                            AuthName "Subversion Repository"
+                            AuthUserFile /etc/apache2/dav_svn.passwd
+                            Require valid-user
+
+                        </Location>" | sudo tee -a /etc/apache2/mods-enabled/dav_svn.conf
+                        sudo htpasswd -cmb /etc/apache2/dav_svn.passwd admin Test123
+                        sudo htpasswd -cmb /etc/apache2/dav_svn.passwd janet Developer1!
+                        sudo htpasswd -cmb /etc/apache2/dav_svn.passwd tim Developer4!
+                        systemctl restart apache2
+
+                        apt-get -y install git
+                }
+        }
+}
+
+superclass Compiler {
+        openstack {
+                user_data {
+                        apt-get -y update
+                        # Installs gcc, make & binutils
+                        apt-get -y install build-essential
+                }
+        }
+}
+host Storage1 {
+  superclass Common
+  superclass Storage
+}
+
+host Storage2 {
+  superclass Common
+  superclass Storage
+}
+
+host Dev1 {
+  superclass Common
+  superclass DevServer
+}
+
+host Dev2 {
+  superclass Common
+  superclass DevServer
+}
+
+host Compiler1 {
+  superclass Common
+  superclass Compiler
+}
+
+host Compiler2 {
+  superclass Common
+  superclass Compiler
+}
