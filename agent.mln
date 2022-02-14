@@ -6,7 +6,7 @@ superclass Common {
         openstack {
                 image Ubuntu-20.04-LTS
                 flavor m1.medium
-                keypair master
+                keypair DevEnv.Master
 
                 user_data {
                         apt-get -y update
@@ -17,7 +17,7 @@ superclass Common {
                         useradd -m alice --password $(openssl passwd -1 'Developer3!') --groups sudo
                         useradd -m tim --password $(openssl passwd -1 'Developer4!') --groups sudo,developers
                         wget http://apt.puppetlabs.com/puppet6-release-focal.deb 
-	                      dpkg -i puppet6-release-focal.deb 
+	                dpkg -i puppet6-release-focal.deb 
                         apt-get -y update
                         apt-get -y install puppet-agent
                 }
