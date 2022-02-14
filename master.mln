@@ -4,24 +4,32 @@ global {
 
 host Master {
    openstack {
-      user_data {
-          apt-get update
-	        apt-get -y install jed
-	        wget http://apt.puppetlabs.com/puppet6-release-focal.deb	 
-	        dpkg -i puppet6-release-focal.deb	 
-          apt-get update
-          apt-get -y install augeas-tools facter
-          apt-get install ca-certificates -y
-          wget -q https://deb.theforeman.org/pubkey.gpg -O- | apt-key add -
-          echo "$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1) $(hostname).openstacklocal $(hostname)" >> /etc/hosts
-          echo "deb http://deb.theforeman.org/ focal 3.0"   >> /etc/apt/sources.list.d/foreman.list
-          echo "deb http://deb.theforeman.org/ plugins 3.0"  >> /etc/apt/sources.list.d/foreman.list
-          apt-get update
-          apt-get install foreman-installer -y 
+      user_data { 
+		apt-get update
+		apt-get -y install jed
+		wget http://apt.puppetlabs.com/puppet6-release-focal.deb	 
+		dpkg -i puppet6-release-focal.deb	 
+		apt-get update
+		apt-get -y install augeas-tools facter
+		apt-get install ca-certificates -y
+		wget -q https://deb.theforeman.org/pubkey.gpg -O- | apt-key add -
+		echo "$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1) $(hostname).openstacklocal $(hostname)" >> /etc/hosts
+		echo "deb http://deb.theforeman.org/ focal 3.0"   >> /etc/apt/sources.list.d/foreman.list
+		echo "deb http://deb.theforeman.org/ plugins 3.0"  >> /etc/apt/sources.list.d/foreman.list
+		apt-get update
+		apt-get install foreman-installer -y
+		forman-installer
+		sudo foreman-rake permissions:reset username=admin password=AdminTest123
+		
+		#setup for agent
+		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp -P /etc/puppetlabs/code/environments/production/manifests		
+		masterIP=$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1)
+		find /etc/puppetlabs/code/environments/production/manifests/agent.pp -type f -exec sed -i "s|10.0.48.123|${masterIP}|g"  {} ;
+		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.mln -P /etc/mln
 	    }
       image Ubuntu-20.04-LTS
       flavor m1.medium
-      keypair HHlap
+      keypair ManagementServer
    }
   
    network eth0 {
