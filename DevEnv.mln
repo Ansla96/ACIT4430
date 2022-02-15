@@ -23,7 +23,6 @@ host Master {
 		
 		#setup for agent
 		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp -P /etc/puppetlabs/code/environments/production/manifests		
-		masterIP=$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1)
 		sed -i "s|10.0.48.123|$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1)|g" /etc/puppetlabs/code/environments/production/manifests/agent.pp
 		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.mln -P /etc/mln
 	    }
