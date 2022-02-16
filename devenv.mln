@@ -18,7 +18,7 @@ host master {
 		echo "deb http://deb.theforeman.org/ plugins 3.0"  >> /etc/apt/sources.list.d/foreman.list
 		apt-get update
 		apt-get -y install foreman-installer
-		forman-installer
+		foreman-installer
 		sudo foreman-rake permissions:reset username=admin password=AdminTest123
 		
 		#setup for agent
