@@ -19,7 +19,7 @@ host master {
 		apt-get update
 		apt-get -y install foreman-installer
 		foreman-installer
-		sudo foreman-rake permissions:reset username=admin password=AdminTest123
+		foreman-rake permissions:reset username=admin password=AdminTest123
 		
 		#setup for agent
 		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp -P /etc/puppetlabs/code/environments/production/manifests		
