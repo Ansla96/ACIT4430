@@ -1,8 +1,8 @@
 global {
-        project DevEnv
+        project devenv
 }
 
-superclass Common {
+superclass common {
         openstack {
                 image Ubuntu-20.04-LTS
                 flavor m1.medium
@@ -29,7 +29,7 @@ superclass Common {
 }
 
 # Class for installing GlusterFS on Storage Servers
-superclass Storage {
+superclass storage {
         openstack {
                 user_data {
                         apt-get -y update
@@ -40,7 +40,7 @@ superclass Storage {
         }
 }
 
-superclass DevServer {
+superclass devserver {
         openstack {
                 user_data {
                         apt-get -y update
@@ -76,7 +76,7 @@ superclass DevServer {
         }
 }
 
-superclass Compiler {
+superclass compiler {
         openstack {
                 user_data {
                         apt-get -y update
@@ -85,32 +85,32 @@ superclass Compiler {
                 }
         }
 }
-host Storage1 {
+host storage1 {
   superclass Common
   superclass Storage
 }
 
-host Storage2 {
+host storage2 {
   superclass Common
   superclass Storage
 }
 
-host Dev1 {
+host dev1 {
   superclass Common
   superclass DevServer
 }
 
-host Dev2 {
+host dev2 {
   superclass Common
   superclass DevServer
 }
 
-host Compiler1 {
+host compiler1 {
   superclass Common
   superclass Compiler
 }
 
-host Compiler2 {
+host compiler2 {
   superclass Common
   superclass Compiler
 }
