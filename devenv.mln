@@ -1,8 +1,8 @@
 global {
-   project DevEnv
+   project devenv
 }
 
-host Master {
+host master {
    openstack {
       user_data { 
 		apt-get update
