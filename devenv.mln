@@ -33,6 +33,7 @@ host master {
   
    network eth0 {
       net netsys_net
+      floating-ip 128.39.121.182
       address dhcp
    }
 }
