@@ -6,7 +6,7 @@ superclass common {
         openstack {
                 image Ubuntu-20.04-LTS
                 flavor m1.medium
-                keypair ManagementServer
+                keypair masterdev
 
                 user_data {
                         apt-get -y update
@@ -20,9 +20,16 @@ superclass common {
 	                dpkg -i puppet6-release-focal.deb 
                         apt-get -y update
                         apt-get -y install puppet-agent
+			
+			#setup for agent
+			echo "10.0.62.206 masterdev.openstacklocal masterdev" >> /etc/hosts
+			wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp -P /home		
+			sed -i "s|10.0.62.206|MASTERDEV.IP|g" /etc/hosts
+			sed -i "s|10.0.48.123|MASTERDEV.IP|g" /home/agent.pp
+			/opt/puppetlabs/puppet/bin/puppet apply agent.pp
                 }
         }
-
+}
         network eth0 {
                 net netsys_net
                 adress dhcp
