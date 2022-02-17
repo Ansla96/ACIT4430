@@ -7,6 +7,7 @@ host masterdev {
       user_data { 
 		apt-get update
 		apt-get -y install jed
+		apt install -y pssh
 		wget http://apt.puppetlabs.com/puppet6-release-focal.deb	 
 		dpkg -i puppet6-release-focal.deb	 
 		apt-get update
