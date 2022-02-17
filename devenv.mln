@@ -20,11 +20,7 @@ host master {
 		apt-get -y install foreman-installer
 		foreman-installer
 		foreman-rake permissions:reset username=admin password=AdminTest123
-		
-		#setup for agent
-		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp -P /etc/puppetlabs/code/environments/production/manifests		
-		sed -i "s|10.0.48.123|$(ip a | grep global |  cut -d' ' -f 6 | cut -d/ -f 1)|g" /etc/puppetlabs/code/environments/production/manifests/agent.pp
-		wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.mln -P /etc/mln
+	
 	    }
       image Ubuntu-20.04-LTS
       flavor m1.medium
@@ -33,7 +29,6 @@ host master {
   
    network eth0 {
       net netsys_net
-      floating-ip 128.39.121.182
       address dhcp
    }
 }
