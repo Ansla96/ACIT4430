@@ -25,7 +25,7 @@ superclass common {
 			echo "10.0.62.206 masterdev.openstacklocal masterdev" >> /etc/hosts
 			wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp		
 			sed -i "s|10.0.62.206|MASTERDEV.IP|g" /etc/hosts
-			sed -i "s|10.0.48.123|MASTERDEV.IP|g" /home/agent.pp
+			sed -i "s|10.0.48.123|MASTERDEV.IP|g" agent.pp
 			/opt/puppetlabs/puppet/bin/puppet apply agent.pp
                 }
         }
