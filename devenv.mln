@@ -2,7 +2,7 @@ global {
    project devenv
 }
 
-host master {
+host masterdev {
    openstack {
       user_data { 
 		apt-get update
