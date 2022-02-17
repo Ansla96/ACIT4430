@@ -29,14 +29,14 @@ superclass common {
 			/opt/puppetlabs/puppet/bin/puppet apply agent.pp
                 }
         }
-}
         network eth0 {
                 net netsys_net
                 adress dhcp
 }
-
+}
 # Class for installing GlusterFS on Storage Servers
 superclass storage {
+	superclass common
         openstack {
                 user_data {
                         apt-get -y update
@@ -48,6 +48,7 @@ superclass storage {
 }
 
 superclass devserver {
+	superclass common
         openstack {
                 user_data {
                         apt-get -y update
@@ -84,6 +85,7 @@ superclass devserver {
 }
 
 superclass compiler {
+	superclass common
         openstack {
                 user_data {
                         apt-get -y update
@@ -93,31 +95,25 @@ superclass compiler {
         }
 }
 host storage1 {
-  superclass Common
-  superclass Storage
+  superclass storage
 }
 
 host storage2 {
-  superclass Common
-  superclass Storage
+  superclass storage
 }
 
 host dev1 {
-  superclass Common
-  superclass DevServer
+  superclass devserver
 }
 
 host dev2 {
-  superclass Common
-  superclass DevServer
+  superclass devserver
 }
 
 host compiler1 {
-  superclass Common
-  superclass Compiler
+  superclass compiler
 }
 
 host compiler2 {
-  superclass Common
-  superclass Compiler
+  superclass compiler
 }
