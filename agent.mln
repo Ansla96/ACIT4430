@@ -10,7 +10,6 @@ superclass common {
 
                 user_data {
                         apt-get -y update
-                        apt-get -y install jed
                         groupadd developers
                         useradd -m janet --password $(openssl passwd -1 'Developer1!') --groups sudo,developers
                         useradd -m bob --password $(openssl passwd -1 'Developer2!') --groups sudo
