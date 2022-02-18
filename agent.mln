@@ -5,7 +5,7 @@ global {
 superclass common {
         openstack {
                 image Ubuntu-20.04-LTS
-                flavor m1.medium
+                flavor m1.small
                 keypair masterdev
 
                 user_data {
