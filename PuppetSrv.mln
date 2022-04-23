@@ -2,7 +2,7 @@ global {
    project Proj2
 }
 
-host Management {
+host PuppetSrv {
    openstack {
       user_data {
                 apt-get update
