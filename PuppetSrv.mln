@@ -22,7 +22,7 @@ host PuppetSrv {
             }
       image Ubuntu-20.04-LTS
       flavor m1.medium
-      keypair ManagementServer
+      keypair project2_master
    }
 
    network eth0 {
