@@ -1,10 +1,10 @@
-$master = "masterdev.openstacklocal"
+$master = "PuppetSrv.openstacklocal"
 $master_ip = "10.0.48.123"
-$interval = "600"
+$interval = "120"
 
-host { 'masterdev.openstacklocal' :
+host { 'PuppetSrv.openstacklocal' :
      name => $master,
-     ensure => present,host_aliases => "masterdev",
+     ensure => present,host_aliases => "PuppetSrv",
      ip => $master_ip
 }
 augeas { "puppet_default" :
@@ -16,7 +16,7 @@ augeas { "puppet.conf" :
        context => "/files/etc//puppetlabs/puppet/puppet.conf",
        changes => [
                    "set agent/server $master",
-		   "set agent/runinterval 600",
+		   "set agent/runinterval 120",
        ],  
        notify => Service['puppet'],
 }
