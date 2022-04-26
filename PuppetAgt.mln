@@ -1,0 +1,41 @@
+global {
+        project proj2
+}
+
+superclass agent {
+        openstack {
+                image Ubuntu-20.04-LTS
+                flavor m1.medium
+                keypair puppetsrv
+
+                user_data {
+                        apt-get -y update
+                        wget http://apt.puppetlabs.com/puppet6-release-focal.deb 
+	                      dpkg -i puppet6-release-focal.deb 
+                        apt-get -y update
+                        apt-get -y install puppet-agent
+			
+			#setup for agent
+			echo "10.0.62.206 puppetsrv.openstacklocal puppetsrv" >> /etc/hosts
+			wget https://raw.githubusercontent.com/Ansla96/ACIT4430/main/agent.pp		
+			sed -i "s|10.0.62.206|MASTERDEV.IP|g" /etc/hosts
+			sed -i "s|10.0.48.123|MASTERDEV.IP|g" agent.pp
+			/opt/puppetlabs/puppet/bin/puppet apply agent.pp
+                }
+        }
+        network eth0 {
+                net netsys_net
+                adress dhcp
+}
+}
+host kubagent1 {
+  superclass agent
+}
+
+host kubagent2 {
+  superclass agent
+}
+
+host kubagent3 {
+  superclass agent
+}
