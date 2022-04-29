@@ -16,7 +16,7 @@ augeas { "puppet.conf" :
        context => "/files/etc//puppetlabs/puppet/puppet.conf",
        changes => [
                    "set agent/server $master",
-		   "set agent/runinterval 120",
+		   "set agent/runinterval $interval",
        ],  
        notify => Service['puppet'],
 }
