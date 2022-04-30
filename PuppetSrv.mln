@@ -23,7 +23,7 @@ host PuppetSrv {
                 wget https://raw.githubusercontent.com/Ansla96/ACIT4430/Project-2/KubAgent.pp -P /etc/puppetlabs/code/environments/production/manifests  
             }
       image Ubuntu-20.04-LTS
-      flavor m1.large
+      flavor m1.medium
       keypair project2_manager
    }
 
