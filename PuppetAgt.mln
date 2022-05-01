@@ -28,14 +28,14 @@ superclass agent {
                 adress dhcp
 }
 }
+host kubmaster {
+  superclass agent
+}
+
 host kubagent1 {
   superclass agent
 }
 
 host kubagent2 {
-  superclass agent
-}
-
-host kubagent3 {
   superclass agent
 }
